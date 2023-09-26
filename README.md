@@ -3,4 +3,4 @@
 Réalisation du test en REACT Native
 
 Fetch de données + UX/UI
-![Screenshot](ScreenBooks.jpg)
+![Screenshot](ScreenBooks.png)
