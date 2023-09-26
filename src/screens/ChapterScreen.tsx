@@ -1,22 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {getChapter} from '../api/callApi';
 import {CardChapter} from '../components/CardChapter';
-import {useNavigation} from '@react-navigation/native';
+import {HeaderDefault} from '../components/HeaderDefault';
 
 export interface chapterType {
-  id?: number;
+  id: number;
   title: string;
   url?: string;
 }
 const ChapterScreen = (props: {route: {params: {bookId: number}}}) => {
-  const navigation = useNavigation();
   const [chapters, setChapters] = useState<chapterType[]>([]);
 
   useEffect(() => {
@@ -31,15 +24,7 @@ const ChapterScreen = (props: {route: {params: {bookId: number}}}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <TouchableOpacity
-        style={styles.hearder}
-        onPress={() => navigation.goBack()}>
-        {/* A FAIRE : mettre un icon */}
-        <Text style={styles.textColor}> ← </Text>
-        <Text style={[styles.textColor, {flex: 1, textAlign: 'center'}]}>
-          CHAPITRE
-        </Text>
-      </TouchableOpacity>
+      <HeaderDefault title={'Chapitre'} />
       <FlatList
         style={styles.body}
         data={chapters}
@@ -60,12 +45,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textColor: {
-    color: 'white',
+    color: 'black',
   },
   hearder: {
     flexDirection: 'row',
-    backgroundColor: 'gray',
-    height: 50,
+    height: 80,
     alignItems: 'center',
+    paddingHorizontal: 5,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    backgroundColor: 'white',
   },
 });

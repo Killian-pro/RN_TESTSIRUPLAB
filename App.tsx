@@ -5,7 +5,8 @@ import {Platform, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen';
 import ChapterScreen from './src/screens/ChapterScreen';
-import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
+import BookByFilterScreen from './src/screens/BookByFilterScreen';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -36,6 +37,13 @@ const App = () => {
               headerShown: false,
             }}
           />
+          <Stack.Screen
+            name="BookByFilterScreen"
+            component={BookByFilterScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
@@ -47,9 +55,9 @@ export type AppStackParamList = {
   ChapterScreen: {
     bookId: number;
   };
+  BookByFilterScreen: {
+    filterName: string;
+  };
 };
-
-export type AppStackScreenProps<Screen extends keyof AppStackParamList> =
-  StackScreenProps<AppStackParamList, Screen>;
 
 export default App;

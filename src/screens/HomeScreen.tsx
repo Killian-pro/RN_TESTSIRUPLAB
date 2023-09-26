@@ -7,9 +7,11 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {getBook} from '../api/callApi';
 import {CardBooks} from '../components/CardBook';
+import {useNavigation} from '@react-navigation/native';
 
 type subjects = {
   name: string;
@@ -28,6 +30,8 @@ export interface bookType {
   valid: boolean;
 }
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const [books, setBooks] = useState<bookType[]>([]);
   const [filterBySubject, setFilterBySubject] = useState(false);
 
@@ -45,16 +49,20 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.body}>
       <View style={styles.hearder}>
-        {/* A FAIRE : mettre un icon person pour accéder au chapitre lu */}
-        <Text style={styles.textColorWhite}> ☺ </Text>
-        <Text style={[styles.textColorWhite, {flex: 1, textAlign: 'center'}]}>
-          Livres
-        </Text>
+        <View style={{flex: 1}}>
+          <Image
+            style={{width: 200, height: 200}}
+            resizeMode="contain"
+            source={{
+              uri: 'https://img.over-blog-kiwi.com/0/68/70/92/20170111/ob_c4958c_images.png',
+            }}
+          />
+        </View>
         <TouchableOpacity
           onPress={() => {
             setFilterBySubject(!filterBySubject);
           }}>
-          <Text style={styles.textColorWhite}>
+          <Text style={styles.textColor}>
             {!filterBySubject ? 'filtrer par matière' : 'filtrer par niveau'}
           </Text>
         </TouchableOpacity>
@@ -67,15 +75,22 @@ const HomeScreen = () => {
                   <Text style={[styles.textColor, {flex: 1, fontSize: 20}]}>
                     {subjectName ? subjectName : 'Inconnu'}
                   </Text>
-                  {/* A FAIRE : mettre que trois livre et aller vers un new SCREEN */}
-                  <Text style={styles.textColor}>voir tous</Text>
+                  <TouchableOpacity
+                    disabled={!subjectName}
+                    onPress={() => {
+                      navigation.navigate('BookByFilterScreen', {
+                        filterName: subjectName,
+                      });
+                    }}>
+                    <Text style={styles.textColor}>voir tous</Text>
+                  </TouchableOpacity>
                 </View>
                 <FlatList
                   style={{height: 120}}
                   horizontal={true}
-                  data={books.filter(
-                    book => book.subjects?.[0]?.name === subjectName,
-                  )}
+                  data={books
+                    .filter(book => book.subjects?.[0]?.name === subjectName)
+                    .slice(0, 3)}
                   keyExtractor={item => item.id.toString()}
                   renderItem={({item}) => <CardBooks book={item} />}
                 />
@@ -87,15 +102,22 @@ const HomeScreen = () => {
                   <Text style={[styles.textColor, {flex: 1, fontSize: 20}]}>
                     {levelName ? levelName : 'Inconnu'}
                   </Text>
-                  {/* A FAIRE : mettre que trois livre et aller vers un new SCREEN */}
-                  <Text style={styles.textColor}>voir tous</Text>
+                  <TouchableOpacity
+                    disabled={!levelName}
+                    onPress={() => {
+                      navigation.navigate('BookByFilterScreen', {
+                        filterName: levelName,
+                      });
+                    }}>
+                    <Text style={styles.textColor}>voir tous</Text>
+                  </TouchableOpacity>
                 </View>
                 <FlatList
                   style={{height: 120}}
                   horizontal={true}
-                  data={books.filter(
-                    book => book.levels?.[0]?.name === levelName,
-                  )}
+                  data={books
+                    .filter(book => book.levels?.[0]?.name === levelName)
+                    .slice(0, 3)}
                   keyExtractor={item => item.id.toString()}
                   renderItem={({item}) => <CardBooks book={item} />}
                 />
@@ -116,14 +138,13 @@ const styles = StyleSheet.create({
   textColor: {
     color: 'black',
   },
-  textColorWhite: {
-    color: 'white',
-  },
   hearder: {
     flexDirection: 'row',
-    backgroundColor: 'gray',
-    height: 50,
+    height: 80,
     alignItems: 'center',
     paddingHorizontal: 5,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    paddingBottom: 5,
   },
 });

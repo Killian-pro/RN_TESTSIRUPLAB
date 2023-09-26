@@ -18,7 +18,7 @@ export const CardBooks = ({book}: {book: bookType}) => {
       ) : (
         <Image source={{uri: book?.url}} width={100} />
       )}
-      <View style={{margin: 15}}>
+      <View style={{margin: 15, flex: 1}}>
         <Text style={styles.textColor}>Titre : {book.displayTitle}</Text>
         {/* A FAIRE : parcourir tous les levels */}
         <Text style={styles.textColor}>Niveau : {book.levels?.[0]?.name}</Text>
