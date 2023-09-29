@@ -29,10 +29,8 @@ const BookByFilterScreen = (props: {route: {params: {filterName: string}}}) => {
             );
           })
           .sort((a: bookType, b: bookType) => {
-            const aLevels = a.levels || [];
-            const bLevels = b.levels || [];
-            const aLevelName = aLevels.length > 0 ? aLevels[0].name : '';
-            const bLevelName = bLevels.length > 0 ? bLevels[0].name : '';
+            const aLevelName = a.levels?.[0]?.name ?? '';
+            const bLevelName = b.levels?.[0]?.name ?? '';
             return aLevelName.localeCompare(bLevelName);
           }),
       );
@@ -45,7 +43,7 @@ const BookByFilterScreen = (props: {route: {params: {filterName: string}}}) => {
       <TouchableOpacity
         style={{alignSelf: 'center', margin: 15}}
         onPress={() => {
-          setExamMode(!examMode);
+          setExamMode(prevExamMode => !prevExamMode);
         }}>
         <Text style={{color: examMode ? 'green' : 'red'}}>
           Mode examen {examMode ? 'On' : 'Off'}
