@@ -5,6 +5,7 @@ import {createJSONStorage, persist} from 'zustand/middleware';
 interface AppState {
   chapterShow: number[];
   setChapterShow: (chapterShow: number[]) => void;
+  toggleChapterStatus: (chapterId: number) => void;
 }
 
 export const useAppStore = createStore<AppState>()(
@@ -12,6 +13,13 @@ export const useAppStore = createStore<AppState>()(
     set => ({
       chapterShow: [],
       setChapterShow: chap => set({chapterShow: chap}),
+      toggleChapterStatus: (chapterId: number) =>
+        set(state => {
+          if (!state.chapterShow.includes(chapterId)) {
+            return {chapterShow: [...state.chapterShow, chapterId]};
+          }
+          return state;
+        }),
     }),
     {
       name: 'app-storage',

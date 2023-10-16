@@ -5,8 +5,8 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useAppStore} from '../store/Appstore';
 
 export const CardChapter = ({chapter}: {chapter: chapterType}) => {
-  const [refresh, setRefresh] = useState(false);
-  const chapterShow = useAppStore.getState().chapterShow;
+  const {chapterShow, toggleChapterStatus} = useAppStore.getState();
+  const [_, setRefresh] = useState(false);
 
   return (
     <View style={styles.body}>
@@ -20,9 +20,10 @@ export const CardChapter = ({chapter}: {chapter: chapterType}) => {
       )}
       <Text style={styles.textColor}> {chapter.title}</Text>
       <TouchableOpacity
+        disabled={chapterShow.includes(chapter.id)}
         onPress={() => {
-          useAppStore.setState({chapterShow: [...chapterShow, chapter.id]});
-          setRefresh(!refresh);
+          toggleChapterStatus(chapter.id);
+          setRefresh(prev => !prev);
         }}>
         {chapterShow.includes(chapter.id) ? (
           <Text style={{color: 'green'}}>Lu</Text>
