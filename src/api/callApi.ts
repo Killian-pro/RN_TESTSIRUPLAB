@@ -5,7 +5,7 @@ import {chapterType} from '../screens/ChapterScreen';
 interface ApiResponse<T> {
   data: {
     viewer: {
-      [key: string]: {
+      [key in 'books' | 'chapters']: {
         hits: T[];
       };
     };
